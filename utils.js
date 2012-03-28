@@ -1,7 +1,7 @@
-var fitImages = function(list,max_width, buffer){
+var fitImages = function(list, max_width, buffer){
   list.each(function(i,image){
     var img = $(image);
-    if (img.width() > max_width || (typeof img.data('originalWidth') != 'undefined' && img.data('originalWidth') > max_width)){
+    if (img.width() + img.offset().left  >= max_width || (typeof img.data('originalWidth') != 'undefined' && img.data('originalWidth') + img.offset().right >= max_width)){
       if (!img.data('originalWidth')){
         img.attr('data-original-width',img.width());
         img.attr('data-original-height',img.height());
