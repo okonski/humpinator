@@ -4,7 +4,7 @@ var selector = 'td.postRow img[src^="http"]';
 var dfd = $(selector).imagesLoaded();
 
 dfd.progress(function( isBroken, $images, $proper, $broken ){
-  fitImages($proper,max_width, buffer);
+  fitImages($proper.filter('img:not([data-original-width])'),max_width, buffer);
 });
 
 $(document).on('mouseenter mouseleave','a.humpinator-wrapper',function(e){
