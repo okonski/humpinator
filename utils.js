@@ -1,0 +1,18 @@
+var fitImages = function(list,max_width, buffer){
+  list.each(function(i,image){
+    var img = $(image);
+    if (img.width() > max_width || (typeof img.data('originalWidth') != 'undefined' && img.data('originalWidth') > max_width)){
+      if (!img.data('originalWidth')){
+        img.attr('data-original-width',img.width());
+        img.attr('data-original-height',img.height());
+      }
+      var wrapper = img.parent('a.humpinator-wrapper');
+      if (wrapper.length == 0){
+        wrapper = img.wrap($("<a class='humpinator-wrapper'/>")).parent();
+        wrapper.prepend($("<span class='humpinator-label'/>").text('Resized from ' + img.data('originalWidth') + 'x' + img.data('originalHeight')));
+      }
+      img.css('width',max_width - img.offset().left - buffer);
+      wrapper.attr('href',img.attr('src')).attr('target','_blank');
+    }
+  });
+};
