@@ -1,6 +1,6 @@
 {
   "name": "Humpinator",
-  "version": "0.0.6",
+  "version": "0.1.0",
   "description": "Augment my Hump!",
   "homepage_url": "http://nfohump.com/forum/",
   "minimum_chrome_version" : "14.0",
@@ -15,8 +15,19 @@
       "js": [
         "jquery.min.js",
         "jquery.imagesloaded.min.js",
+        "inject_quick_reply.js",
         "utils.js",
         "humpinator.js"
+      ],
+      "run_at" : "document_end"
+    },
+    {
+      "matches": ["http://www.nfohump.com/forum/*"],
+      "css": ["css/humpinator.css"],
+      "js": [
+        "jquery.min.js",
+        "utils.js",
+        "menu.js"
       ],
       "run_at" : "document_end"
     }

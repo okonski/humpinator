@@ -11,3 +11,12 @@
   top: -60px;
   left: 0;
 }
+.humpinator-options > li > a{
+  vertical-align: middle;
+  position: relative;
+  top: 1px
+}
+.humpinator-options input[type=checkbox] {
+  vertical-align: middle;
+  position: relative;
+}
