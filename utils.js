@@ -50,9 +50,3 @@ var fitImages = function(list, max_width, buffer){
     }
   });
 };
-/* Inject required javascript into the page */
-function injectjs(link) {
-  $('<script type="text/javascript" src="'+link+'"/>').appendTo($('head'));
-}
-
-injectjs(chrome.extension.getURL('inject_quick_reply.js'));

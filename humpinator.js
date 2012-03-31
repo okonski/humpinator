@@ -15,7 +15,7 @@ if (getValue("fitImages") === "true"){
 
   $(window).on('resize',function(){
     fitImages($(selector), $(window).width(), buffer);
-  });
+  }).trigger('resize');
 
   // fit images once spoiler is opened
   $('td.postRow img[src="templates/NFOrce8/images/icon_expand.gif"]').on('click',function(){
@@ -50,3 +50,10 @@ if (getValue("instantQuotes") === "true"){
     return false;
   });
 }
+
+/* Inject required javascript into the page */
+function injectjs(link) {
+  $('<script type="text/javascript" src="'+link+'"/>').appendTo($('head'));
+}
+
+injectjs(chrome.extension.getURL('inject_quick_reply.js'));
