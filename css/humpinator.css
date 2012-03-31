@@ -24,3 +24,33 @@
 .humpinator-options > li > ul{
   padding-left: 10px;
 }
+
+div.humpinator-emoticon-set{
+  width: 300px !important;
+  height: 250px !important;
+  overflow-y: scroll;
+}
+div.humpinator-emoticon-set > table > tbody >tr > td {
+  width: auto;
+}
+
+.humpinator-emoticon-set::-webkit-scrollbar {
+  width: 13px;
+  height: 13px;
+}
+
+.humpinator-emoticon-set::-webkit-scrollbar:hover {
+  height: 18px;
+}
+
+.humpinator-emoticon-set::-webkit-scrollbar-thumb:vertical {
+  height: 50px;
+  background: #384D70;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #7484A0;
+}
+
+.humpinator-emoticon-set::-webkit-scrollbar-track-piece {
+  background-color: #7484A0;
+}

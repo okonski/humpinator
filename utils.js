@@ -18,6 +18,12 @@ var options = {
     "title": "Full reply form under the thread.",
     "value": true
   },
+  "fullEmoticonSet": {
+    "name": "All emoticons",
+    "title": "All emoticons listed next to the form.",
+    "value": false,
+    "sub": true
+  },
   "instantQuotes": {
     "name": "Instant quotes",
     "title": "Quote a post without opening a new page.",
@@ -32,7 +38,7 @@ var options = {
 };
 var saveSettings = function(){
   for(var key in options) {
-    setValue(key, "true");
+    setValue(key, options[key].value);
   }
 };
 if (!localStorage["humpinator-fitImages"]){

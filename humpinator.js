@@ -22,6 +22,25 @@ if (getValue("fitImages") === "true"){
     fitImages($('td.postRow div[name^="spoiler"] img[src^="http"]'), $(window).width(),buffer);
   });
 }
+/* Full emoticon set on the page */
+var fullEmoticonSet = function(){
+  if (getValue("fullEmoticonSet") === "true"){
+    var emoticons = $('form[action="posting.php"] table[cellpadding="5"]');
+    $.ajax("http://www.nfohump.com/forum/posting.php?mode=smilies", {
+      dataType: 'text',
+      success: function(data, textStatus, jqXHR){
+        var content = $('<div/>').append(data.replace("urchinTracker();","")).find("table.forumline table[width='100']");
+        content.removeAttr('width');
+        var table = $('<div class="humpinator-emoticon-set"/>');
+        content.find("a[href^='javascript:emoticon']").each(function(){
+          table.append($(this));
+        });
+        emoticons.replaceWith(table);
+      }
+    });
+  }
+};
+
 /* FULL REPLY FORM */
 if (getValue("fullReplyForm") === "true"){
   var form = $('form[name="qrform"]');
@@ -31,6 +50,7 @@ if (getValue("fullReplyForm") === "true"){
       var content = $('<div/>').append(data.replace("urchinTracker();","")).find('form[name="post"]');
       content.find('table:first').remove(); // remove the additional breadcrumbs leftovers
       form.replaceWith(content);
+      fullEmoticonSet();
     }
   });
 }
@@ -55,6 +75,8 @@ if (getValue("instantQuotes") === "true"){
     return false;
   });
 }
+
+
 
 /* Inject required javascript into the page */
 function injectjs(link) {
