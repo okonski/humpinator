@@ -10,12 +10,11 @@
   },
   "content_scripts": [
     {
-      "matches": ["http://www.nfohump.com/forum/viewtopic.php*"],
+      "matches": ["http://www.nfohump.com/forum/viewtopic.php*","http://www.nfohump.com/forum/posting.php?mode=reply&t=*"],
       "css": ["css/humpinator.css"],
       "js": [
         "jquery.min.js",
         "jquery.imagesloaded.min.js",
-        "inject_quick_reply.js",
         "utils.js",
         "humpinator.js"
       ],
