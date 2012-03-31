@@ -38,6 +38,7 @@ if (getValue("fullReplyForm") === "true"){
 /* INSTANT QUOTING */
 if (getValue("instantQuotes") === "true"){
   $(document).on('click','div.forumbutton > ul#navlist > li > a[href^="posting.php?mode=quote"]',function(){
+    var button = $(this).hide();
     $.ajax($(this).attr('href'), {
       dataType: 'text',
       success: function(data, textStatus, jqXHR){
@@ -45,6 +46,10 @@ if (getValue("instantQuotes") === "true"){
         var current_value = textarea.val();
         var content = $('<div/>').append(data.replace("urchinTracker();","")).find('textarea[name="message"]');
         textarea.val(current_value + (current_value.length == 0 ? "" : "\n") + content.val());
+        if (getValue("scrollAfterQuote") === "true"){
+          scrollViewportTo(textarea,100);
+        }
+        button.show();
       }
     });
     return false;

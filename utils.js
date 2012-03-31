@@ -10,15 +10,24 @@ var setValue = function(k,v){
 var options = {
   "fitImages": {
     "name": "Fit images on screen",
+    "title": "Scale images to fit in your browser to remove horizontal scrollbars.",
     "value": true
   },
   "fullReplyForm": {
     "name": "Full reply form",
+    "title": "Full reply form under the thread.",
     "value": true
   },
   "instantQuotes": {
     "name": "Instant quotes",
+    "title": "Quote a post without opening a new page.",
     "value": true
+  },
+  "scrollAfterQuote": {
+    "name": "Scroll to reply form",
+    "title": "Scrolls to the bottom text field after successful quoting.",
+    "value": true,
+    "sub": true
   }
 };
 var saveSettings = function(){
@@ -27,7 +36,6 @@ var saveSettings = function(){
   }
 };
 if (!localStorage["humpinator-fitImages"]){
-  console.log("initial");
   saveSettings();
 }
 
@@ -50,3 +58,7 @@ var fitImages = function(list, max_width, buffer){
     }
   });
 };
+
+function scrollViewportTo(selector,time){
+  $('html, body').animate({scrollTop: $(selector).offset().top}, time);
+}
