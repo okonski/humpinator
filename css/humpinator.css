@@ -29,9 +29,13 @@ div.humpinator-emoticon-set{
   width: 300px !important;
   height: 250px !important;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
-div.humpinator-emoticon-set > table > tbody >tr > td {
+div.humpinator-emoticon-set > a {
+  display: inline-block;
   width: auto;
+  margin-right: 5px;
+  margin-bottom: 5px;
 }
 
 .humpinator-emoticon-set::-webkit-scrollbar {
