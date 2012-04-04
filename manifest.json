@@ -1,6 +1,6 @@
 {
   "name": "Humpinator",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Augment my Hump!",
   "homepage_url": "http://nfohump.com/forum/",
   "minimum_chrome_version" : "14.0",
@@ -10,8 +10,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["http://www.nfohump.com/forum/viewtopic.php*","http://www.nfohump.com/forum/posting.php?mode=reply&t=*"],
-      "css": ["css/humpinator.css"],
+      "matches": ["http://www.nfohump.com/forum/viewtopic.php*","http://www.nfohump.com/forum/posting.php?mode=reply&t=*","http://www.nfohump.com/forum/posting.php?mode=newtopic*"],
       "js": [
         "jquery.min.js",
         "jquery.imagesloaded.min.js",

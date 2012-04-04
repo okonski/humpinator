@@ -4,7 +4,7 @@ var menu = $('<div class="menuLeftContainer"><ul class="menuLeftList humpinator-
 for(var key in options) {
   var checkbox = $('<li title="' + options[key].title + '"><input type="checkbox" name="' + key + '"/><a href="javascript:void(0);">' + options[key].name + '</a></li>');
   if (options[key].sub){
-    checkbox.wrapInner("<ul/>");
+    checkbox.addClass("sub");
   }
   if (getValue(key) === "true"){
     checkbox.find('input').prop('checked',true);
