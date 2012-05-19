@@ -69,7 +69,11 @@ if (getValue("instantRedirect") === "true") {
 //$('form[name="post"]').find('input[type="submit"]')
 $(document).on('ajax:success', 'form[name="post"], form[name="qrform"]', function (e, data){
   var content = $('<div/>').html(data.replace("urchinTracker();","")).find("td > span > a[href^='viewtopic']:contains('Here')");
-  window.location.href = "http://www.nfohump.com/forum/" + content.attr('href');
+  if (content.length > 0) {
+    window.location.href = "http://www.nfohump.com/forum/" + content.attr('href');
+  } else {
+    window.location.reload();
+  }
 });
 
 /* FULL REPLY FORM */
