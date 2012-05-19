@@ -41,8 +41,8 @@ var options = {
     "value": true
   },
   "confirmSpoiler": {
-    "name": "Confirm spoiler open",
-    "title": "Asks before opening spoilers.",
+    "name": "Confirm spoiler opens",
+    "title": "Asks before opening spoilers. Remembers which spoilers were opened in the past and doesn't prompt twice.",
     "value": true
   },
   "betterPagination": {
