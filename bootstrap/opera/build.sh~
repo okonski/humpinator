@@ -1,0 +1,30 @@
+#!/bin/bash
+echo Updating CSS
+cp ../../css/humpinator.css ./styles/
+
+echo Compiling JS
+cat js/threads-replies.js \
+	../../jquery.min.js \
+	js/compatability.js \
+	../../jquery.imagesloaded.min.js \
+> includes/humpinator.js
+
+# Add a document.ready in a proper closure
+echo ';(function($) { $(document).ready(function() {' >> includes/humpinator.js
+
+# Problem, garus? :face:
+cat ../../utils.js \
+	../../humpinator.js \
+	../../menu.js \
+>> includes/humpinator.js
+
+# And make sure we close that shit
+echo '}); })(window.jQuery);' >> includes/humpinator.js
+
+# And create the ZIP..err OEX
+
+echo Creating Opera Extension
+rm ../humpinator.oex
+zip ../humpinator.oex * -q -r -0
+
+echo All done.

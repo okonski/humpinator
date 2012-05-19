@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="http://nfohump.com/forum/" version="{version}">
+	<name>Humpinator</name>
+	<description>Augment my Hump!</description>
+	<author href="http://www.alisondiem.com/wp-content/uploads/2012/01/troll-face-high-resolution.png">garus</author>
+	<icon src="icons/icon-64.png"/>
+    <update-description href="http://humpinator.nonidem.net/update/opera"/>
+</widget>

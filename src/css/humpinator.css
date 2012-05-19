@@ -11,8 +11,11 @@
   top: -60px;
   left: 0;
 }
+#leftdiv{
+  min-height: 650px;
+}
 .humpinator-options > li{
-  padding-left: 0px;
+  padding-left: 4px;
 }
 .humpinator-options li a{
   vertical-align: middle;
@@ -66,16 +69,14 @@ div.humpinator-emoticon-set > a {
 
 /* Adjustments */
 
-input.mainoption{
+input.mainoption, input.liteoption{
   font-size: 11px !important;
   cursor: pointer;
   text-indent: 0px;
   padding: 4px 5px 4px 5px !important;
 }
-input.liteoption, input[type="button"]{
+input[type="button"]{
   cursor: pointer;
-  text-indent: 0px;
-  padding: 2px 3px 2px 3px !important;
 }
 input.mainoption:hover, input.liteoption:hover, input[type="button"]:hover{
   background-color: #4E6284;
@@ -91,4 +92,29 @@ input, textarea, select {
 }
 select > option:not([style]){
   color: #333 !important;
+}
+
+/* pagination */
+td.pagination {
+  padding-bottom: 7px;
+}
+td.pagination > span.gensmall > a[href*="&start"], td.pagination > span.gensmall > b{
+  padding: 1px 7px 1px 7px;
+  color: white;
+  border: 1px solid #7484A0;
+  background-color: #384D70;
+  margin-right: 2px;
+}
+td.pagination > span.gensmall > a[href*="&start"]:hover{
+  background-color: #4E6284;
+  border: 1px solid #9DA7B8;
+  color: gold;
+}
+
+td.pagination > span.gensmall > b{
+  background-color: #384D70;
+  border: 1px solid #858e9f;
+  color: gold;
+  padding: 1px 7px 1px 7px;
+  font-size: 9px;
 }
