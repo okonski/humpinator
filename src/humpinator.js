@@ -75,14 +75,14 @@ if (getValue("instantRedirect") === "true") {
 }
 /* REMEMBER MESSAGES BEFORE SUBMITTING */
 var rememberPostMessage = function () {
-  sessionStorage.setItem('humpinatorPostSaver', encodeURIComponent($('textarea[name="message"]').val()));
+  window.sessionStorage.setItem('humpinatorPostSaver', encodeURIComponent($('textarea[name="message"]').val()));
 };
 
 var restorePostMessage = function () {
-  var savedpost = sessionStorage.getItem('humpinatorPostSaver');
+  var savedpost = window.sessionStorage.getItem('humpinatorPostSaver');
   if (savedpost) {
     $('textarea[name="message"]').val(decodeURIComponent(savedpost)); // restore old message, if exists
-    sessionStorage.removeItem('humpinatorPostSaver'); // and remove it so it doesn't linger
+    window.sessionStorage.removeItem('humpinatorPostSaver'); // and remove it so it doesn't linger
   }
 };
 $(document).on('click', 'td.bottomSpaceRow input[type="submit"]', rememberPostMessage);
