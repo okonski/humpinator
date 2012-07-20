@@ -1,4 +1,3 @@
-<!--
 // bbCode control by
 // subBlue design
 // www.subBlue.com
@@ -228,5 +227,3 @@ function mozWrap(txtarea, open, close)
 function storeCaret(textEl) {
   if (textEl.createTextRange) textEl.caretPos = document.selection.createRange().duplicate();
 }
-
-//-->

@@ -1,20 +1,21 @@
 {
   "name": "Humpinator",
-  "version": "0.4.1",
+  "version": "0.4.0",
   "description": "Augment my Hump!",
   "homepage_url": "http://nfohump.com/forum/viewtopic.php?t=75547",
   "minimum_chrome_version" : "14.0",
-  "update_url": "http://humpinator.nonidem.net/update/chrome",
+  "update_url": "http://okonski.org/humpinator/index.php?target=chrome",
   "icons": {
     "16": "icon.ico"
   },
   "content_scripts": [
     {
-      "matches": ["http://www.nfohump.com/forum/viewforum.php*", "http://www.nfohump.com/forum/viewtopic.php*","http://www.nfohump.com/forum/posting.php*"],
+      "matches": ["http://www.nfohump.com/forum/index.php","http://www.nfohump.com/forum/viewforum.php*", "http://www.nfohump.com/forum/viewtopic.php*","http://www.nfohump.com/forum/posting.php?mode=reply*"],
       "js": [
         "jquery.min.js",
         "jquery.imagesloaded.min.js",
         "utils.js",
+        "menu.js",
         "humpinator.js"
       ],
       "run_at" : "document_end"
@@ -22,11 +23,6 @@
     {
       "matches": ["http://www.nfohump.com/forum/*"],
       "css": ["css/humpinator.css"],
-      "js": [
-        "jquery.min.js",
-        "utils.js",
-        "menu.js"
-      ],
       "run_at" : "document_end"
     }
   ],

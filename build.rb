@@ -14,8 +14,11 @@ manifest = JSON.parse(File.read('src/manifest.json'))
 
 puts manifest["version"]
 
+FileUtils.rm_rf "temp"
+FileUtils.mkdir "temp"
+
 # Chrome
-if system("chromium --pack-extension=src/ --pack-extension-key=cert.pem") == true
+if system("google-chrome --pack-extension=src/ --pack-extension-key=cert.pem") == true
 
   FileUtils.mv "src.crx", "out/humpinator-#{manifest["version"]}.crx"
   src_files = Dir.glob('src/*')
@@ -25,13 +28,14 @@ if system("chromium --pack-extension=src/ --pack-extension-key=cert.pem") == tru
   FileUtils.rm_rf 'temp/firefox'
   FileUtils.mkdir 'temp/firefox'
   FileUtils.cp_r files, 'temp/firefox'
-  FileUtils.cp_r src_files, 'temp/firefox/resources/extension-data'
+  FileUtils.cp_r src_files, 'temp/firefox/data'
+  FileUtils.rm 'temp/firefox/data/manifest.json'
   # set version number
-  replace_version_in("temp/firefox/install.rdf", manifest["version"])
+  replace_version_in("temp/firefox/package.json", manifest["version"])
 
-  system("cd temp/firefox && zip -r humpinator.xpi . && cd ../..")
+  system("cd temp/firefox && cfx xpi")
   FileUtils.mv "temp/firefox/humpinator.xpi", "out/humpinator-#{manifest["version"]}.xpi"
-  FileUtils.rm_rf 'temp/firefox'
+  #FileUtils.rm_rf 'temp/firefox'
 
   # --- Opera
   files = Dir.glob('bootstrap/opera/*')

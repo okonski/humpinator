@@ -1,4 +1,5 @@
 /* value settings */
+
 var getValue = function(k){
   return localStorage.getItem("humpinator-" + k);
 };

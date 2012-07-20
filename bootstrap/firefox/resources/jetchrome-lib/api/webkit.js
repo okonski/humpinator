@@ -1,1 +1,0 @@
-"use strict";const self=require("self");exports.inject=function(d,b,a){var c=require("api/notifications").Notification;a.webkitNotifications={createNotification:function(e,g,f){return c({icon:e,title:g,text:f,name:d.manifest.name})},createHTMLNotification:function(e){return c({url:/^\w:\/\//.test(e)?e:d.getURL(e),name:d.manifest.name})}}};

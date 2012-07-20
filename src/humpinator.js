@@ -61,27 +61,39 @@ if (getValue("instantRedirect") === "true") {
    $('form[name="post"] input[value="Preview"]').on('click', function (){
     $(this).closest('form').removeAttr('data-remote');
    });
-  }
+  };
 
   instantRedirect();
+  $(document).on('ajax:success', 'form[name="post"], form[name="qrform"]', function (e, data){
+    var content = $('<div/>').html(data.replace("urchinTracker();","")).find("td > span > a[href^='viewtopic']:contains('Here')");
+    if (content.length > 0) {
+      window.location.href = "http://www.nfohump.com/forum/" + content.attr('href');
+    } else {
+      window.location.reload();
+    }
+  });
 }
+/* REMEMBER MESSAGES BEFORE SUBMITTING */
+var rememberPostMessage = function () {
+  sessionStorage.setItem('humpinatorPostSaver', encodeURIComponent($('textarea[name="message"]').val()));
+};
 
-//$('form[name="post"]').find('input[type="submit"]')
-$(document).on('ajax:success', 'form[name="post"], form[name="qrform"]', function (e, data){
-  var content = $('<div/>').html(data.replace("urchinTracker();","")).find("td > span > a[href^='viewtopic']:contains('Here')");
-  if (content.length > 0) {
-    window.location.href = "http://www.nfohump.com/forum/" + content.attr('href');
-  } else {
-    window.location.reload();
+var restorePostMessage = function () {
+  var savedpost = sessionStorage.getItem('humpinatorPostSaver');
+  if (savedpost) {
+    $('textarea[name="message"]').val(decodeURIComponent(savedpost)); // restore old message, if exists
+    sessionStorage.removeItem('humpinatorPostSaver'); // and remove it so it doesn't linger
   }
-});
+};
+$(document).on('click', 'td.bottomSpaceRow input[type="submit"]', rememberPostMessage);
+restorePostMessage();
 
 /* FULL REPLY FORM */
 if (getValue("fullReplyForm") === "true"){
   var form = $('form[name="qrform"]');
   if (form.length > 0) {
     $.ajax("http://www.nfohump.com/forum/posting.php?mode=reply&t="+form.find('input[type="hidden"][name="t"]').val(), {
-      dataType: 'text',
+      dataType: 'html',
       success: function(data, textStatus, jqXHR){
         var content = $('<div/>').append(data.replace("urchinTracker();","")).find('form[name="post"]');
         content.find('table:first').remove(); // remove the additional breadcrumbs leftovers
@@ -90,6 +102,8 @@ if (getValue("fullReplyForm") === "true"){
         fullEmoticonSet();
         if (getValue("instantRedirect") === "true"){
           instantRedirect();
+        } else {
+          restorePostMessage();
         }
       }
     });
@@ -123,7 +137,7 @@ if (getValue("mentionNicks") === "true"){
     console.log($(this).text());
     var mention, textarea, value;
     mention = "[b]@" + $(this).text() + "[/b]: ";
-    textarea = $('textarea.post');
+    textarea = $('form[name="qrform"] textarea, form[name="post"] textarea');
     value = textarea.val();
     if (value.length === 0){
       mention = mention + "\n";
@@ -140,22 +154,21 @@ if (getValue("mentionNicks") === "true"){
 /* Prevent accidental spoiler openings */
 if (getValue("confirmSpoiler") === "true"){
   $('img[src="templates/NFOrce8/images/icon_expand.gif"]').removeAttr('onclick');
-
   $(document).on('click', 'img[src="templates/NFOrce8/images/icon_expand.gif"], img[src="templates/NFOrce8/images/icon_collapse.gif"]', function (e) {
     var btn = $(this);
     var opened = getValue("openedSpoilers");
-    console.log(typeof(opened));
     if (typeof(opened) !== "string"){
       opened = [];
     } else {
       opened = opened.split(",");
     }
-    var spoiler = btn.closest('tbody').find('div[name^="spoiler"]');
+    var spoiler = btn.closest('tbody').find('tr > td > div[id^="spoiler"]');
 
     var sid = spoiler.closest('.row2, .row1').find('table > tbody > tr > td > a[href^="viewtopic.php"]').attr('href').split("#")[1] + "_" + spoiler.attr("name").replace("spoiler","");
 
     if (btn.attr('src') === "templates/NFOrce8/images/icon_expand.gif") {
-      if (spoiler.hasClass("already-opened") || opened.indexOf(sid) != -1 || confirm("Do you really want to open this?")){
+      if (spoiler.hasClass("already-opened") || opened.indexOf(sid) != -1 || window.confirm("Do you really want to open this?")){
+        console.log("click 3");
         btn.attr('src','templates/NFOrce8/images/icon_collapse.gif');
         spoiler.show().addClass("already-opened");
         if (opened.indexOf(sid) == -1) {
@@ -196,4 +209,6 @@ function injectjs(link) {
   $('<script type="text/javascript" src="'+link+'"/>').appendTo($('head'));
 }
 
-injectjs(chrome.extension.getURL('inject_quick_reply.js'));
+if (typeof(chrome) !== "undefined") {
+  injectjs(chrome.extension.getURL('inject_quick_reply.js'));
+}
