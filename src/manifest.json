@@ -4,7 +4,7 @@
   "description": "Augment my Hump!",
   "homepage_url": "http://nfohump.com/forum/viewtopic.php?t=75547",
   "minimum_chrome_version" : "14.0",
-  "update_url": "http://okonski.org/humpinator/index.php?target=chrome",
+  "update_url": "http://humpinator.nonidem.net/update/chrome",
   "icons": {
     "16": "icon.ico"
   },
