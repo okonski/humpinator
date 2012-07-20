@@ -38,7 +38,7 @@ var options = {
   },
   "mentionNicks": {
     "name": "Insert @mentions",
-    "title": "Inserts [b]@nickName: [/b] into reply form when clicking on user name above his avatar.",
+    "title": "Inserts [b]@nickName: [/b] into reply form when clicking on user's name above his avatar.",
     "value": true
   },
   "confirmSpoiler": {
