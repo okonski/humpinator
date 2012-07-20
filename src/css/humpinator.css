@@ -30,7 +30,7 @@
 }
 
 .humpinator-options > li.sub{
-  padding-left: 1.5em;
+  padding-left: 1.5em !important;
 }
 
 div.humpinator-emoticon-set{
