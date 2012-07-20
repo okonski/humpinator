@@ -53,6 +53,8 @@ var fullEmoticonSet = function(){
     }
   }
 };
+fullEmoticonSet();
+
 /* INSTANT POST REDIRECT */
 if (getValue("instantRedirect") === "true") {
   var instantRedirect = function () {
