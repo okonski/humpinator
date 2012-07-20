@@ -87,8 +87,7 @@ var restorePostMessage = function () {
     window.sessionStorage.removeItem('humpinatorPostSaver'); // and remove it so it doesn't linger
   }
 };
-$(document).on('click', 'td.bottomSpaceRow input[type="submit"]', rememberPostMessage);
-restorePostMessage();
+$(document).on('click', 'form input[type="submit"]', rememberPostMessage);
 
 /* FULL REPLY FORM */
 if (getValue("fullReplyForm") === "true"){
