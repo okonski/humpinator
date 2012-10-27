@@ -55,6 +55,11 @@ var options = {
     "name": "Instant redirects",
     "title": "Automatically redirects you to the post you created, skipping the useless page visible after posting.",
     "value": true
+  },
+  "newspostsAbsolute": {
+    "name": "Absolute new post links",
+    "title": "Resolve redirects to new posts so they cannot time out.",
+    "value": true
   }
 };
 var saveSettings = function(){

@@ -6,14 +6,14 @@ if (getValue("fitImages") === "true"){
   var selector = 'td.postRow img[src^="http"]';
   var dfd = $(selector).imagesLoaded();
 
-  dfd.progress(function( isBroken, $images, $proper, $broken ){
-    fitImages($proper.filter('img:not([data-original-width])'),max_width, imageBuffer);
+  dfd.progress(function(isBroken, $images, $proper, $broken){
+    fitImages($proper.filter('img:not([data-original-width])'), max_width, imageBuffer);
   });
 
-  $(document).on('mouseenter mouseleave','a.humpinator-wrapper',function(e){
+  $(document).on('mouseenter mouseleave', 'a.humpinator-wrapper', function(e){
     var img = $(this).find('img');
-    if (img.width() != img.data("originalWidth")) {
-      $(this).find('span.humpinator-label').animate({top: (e.type == 'mouseenter' ? 0 : -60)},100);
+    if (img.width() != img.data("originalWidth")){
+      $(this).find('span.humpinator-label').animate({top: (e.type == 'mouseenter' ? 0 : -60)}, 100);
     }
   });
 
@@ -23,8 +23,8 @@ if (getValue("fitImages") === "true"){
   }).trigger('resize');
 
   // fit images once spoiler is opened
-  $('td.postRow img[src="templates/NFOrce8/images/icon_expand.gif"]').on('click',function(){
-    fitImages($('td.postRow div[name^="spoiler"] img[src^="http"]'), $(window).width(),imageBuffer);
+  $('td.postRow img[src="templates/NFOrce8/images/icon_expand.gif"]').on('click', function(){
+    fitImages($('td.postRow div[name^="spoiler"] img[src^="http"]'), $(window).width(), imageBuffer);
   });
 }
 
@@ -38,7 +38,7 @@ var fullEmoticonSet = function(){
       $.ajax("http://www.nfohump.com/forum/posting.php?mode=smilies", {
         dataType: 'text',
         success: function(data, textStatus, jqXHR){
-          var content = $('<div/>').append(data.replace("urchinTracker();","")).find("table.forumline table[width='100']");
+          var content = $('<div/>').append(data.replace("urchinTracker();", "")).find("table.forumline table[width='100']");
           content.removeAttr('width');
           content.find("a[href^='javascript:emoticon']").each(function(){
             table.append($(this));
@@ -56,19 +56,19 @@ var fullEmoticonSet = function(){
 fullEmoticonSet();
 
 /* INSTANT POST REDIRECT */
-if (getValue("instantRedirect") === "true") {
-  var instantRedirect = function () {
-   $('form[name="qrform"] input[value="Post Reply"], form[name="post"] input[value="Submit"]').attr('data-disable-with', "Wait...");
-   $('form[name="qrform"], form[name="post"]').attr('data-remote', true).attr('data-type', "text");
-   $('form[name="post"] input[value="Preview"]').on('click', function (){
-    $(this).closest('form').removeAttr('data-remote');
-   });
+if (getValue("instantRedirect") === "true"){
+  var instantRedirect = function(){
+    $('form[name="qrform"] input[value="Post Reply"], form[name="post"] input[value="Submit"]').attr('data-disable-with', "Wait...");
+    $('form[name="qrform"], form[name="post"]').attr('data-remote', true).attr('data-type', "text");
+    $('form[name="post"] input[value="Preview"]').on('click', function(){
+      $(this).closest('form').removeAttr('data-remote');
+    });
   };
 
   instantRedirect();
-  $(document).on('ajax:success', 'form[name="post"], form[name="qrform"]', function (e, data){
-    var content = $('<div/>').html(data.replace("urchinTracker();","")).find("td > span > a[href^='viewtopic']:contains('Here')");
-    if (content.length > 0) {
+  $(document).on('ajax:success', 'form[name="post"], form[name="qrform"]', function(e, data){
+    var content = $('<div/>').html(data.replace("urchinTracker();", "")).find("td > span > a[href^='viewtopic']:contains('Here')");
+    if (content.length > 0){
       window.location.href = "http://www.nfohump.com/forum/" + content.attr('href');
     } else {
       window.location.reload();
@@ -76,13 +76,13 @@ if (getValue("instantRedirect") === "true") {
   });
 }
 /* REMEMBER MESSAGES BEFORE SUBMITTING */
-var rememberPostMessage = function () {
+var rememberPostMessage = function(){
   window.sessionStorage.setItem('humpinatorPostSaver', encodeURIComponent($('textarea[name="message"]').val()));
 };
 
-var restorePostMessage = function () {
+var restorePostMessage = function(){
   var savedpost = window.sessionStorage.getItem('humpinatorPostSaver');
-  if (savedpost) {
+  if (savedpost){
     $('textarea[name="message"]').val(decodeURIComponent(savedpost)); // restore old message, if exists
     window.sessionStorage.removeItem('humpinatorPostSaver'); // and remove it so it doesn't linger
   }
@@ -92,11 +92,11 @@ $(document).on('click', 'form input[type="submit"]', rememberPostMessage);
 /* FULL REPLY FORM */
 if (getValue("fullReplyForm") === "true"){
   var form = $('form[name="qrform"]');
-  if (form.length > 0) {
-    $.ajax("http://www.nfohump.com/forum/posting.php?mode=reply&t="+form.find('input[type="hidden"][name="t"]').val(), {
+  if (form.length > 0){
+    $.ajax("http://www.nfohump.com/forum/posting.php?mode=reply&t=" + form.find('input[type="hidden"][name="t"]').val(), {
       dataType: 'html',
       success: function(data, textStatus, jqXHR){
-        var content = $('<div/>').append(data.replace("urchinTracker();","")).find('form[name="post"]');
+        var content = $('<div/>').append(data.replace("urchinTracker();", "")).find('form[name="post"]');
         content.find('table:first').remove(); // remove the additional breadcrumbs leftovers
         form.replaceWith(content);
         // Ajax posting for full reply form
@@ -113,17 +113,17 @@ if (getValue("fullReplyForm") === "true"){
 
 /* INSTANT QUOTING */
 if (getValue("instantQuotes") === "true"){
-  $(document).on('click','div.forumbutton > ul#navlist > li > a[href^="posting.php?mode=quote"]',function(){
+  $(document).on('click', 'div.forumbutton > ul#navlist > li > a[href^="posting.php?mode=quote"]', function(){
     var button = $(this).hide();
     $.ajax($(this).attr('href'), {
       dataType: 'text',
       success: function(data, textStatus, jqXHR){
         var textarea = $(document).find('textarea[name="message"]');
         var current_value = textarea.val();
-        var content = $('<div/>').append(data.replace("urchinTracker();","")).find('textarea[name="message"]');
+        var content = $('<div/>').append(data.replace("urchinTracker();", "")).find('textarea[name="message"]');
         textarea.val(current_value + (current_value.length == 0 ? "" : "\n") + content.val());
         if (getValue("scrollAfterQuote") === "true"){
-          scrollViewportTo(textarea,100);
+          scrollViewportTo(textarea, 100);
         }
         button.show();
       }
@@ -134,7 +134,7 @@ if (getValue("instantQuotes") === "true"){
 
 /* Clicking on nicks inserts @nickname in reply form */
 if (getValue("mentionNicks") === "true"){
-  $(document).on('click', 'div[id="userprofile"] > span.nav > b', function () {
+  $(document).on('click', 'div[id="userprofile"] > span.nav > b',function(){
     console.log($(this).text());
     var mention, textarea, value;
     mention = "[b]@" + $(this).text() + "[/b]: ";
@@ -147,15 +147,15 @@ if (getValue("mentionNicks") === "true"){
     }
     textarea.val(mention);
     textarea.focus().selectRange(mention.length + value.length + 1, mention.length + value.length + 1);
-  }).on('hover', 'div[id="userprofile"] > span.nav > b', function () {
+  }).on('hover', 'div[id="userprofile"] > span.nav > b', function(){
       $(this).css('cursor', 'pointer');
-  });
+    });
 }
 
 /* Prevent accidental spoiler openings */
 if (getValue("confirmSpoiler") === "true"){
   $('img[src="templates/NFOrce8/images/icon_expand.gif"]').removeAttr('onclick');
-  $(document).on('click', 'img[src="templates/NFOrce8/images/icon_expand.gif"], img[src="templates/NFOrce8/images/icon_collapse.gif"]', function (e) {
+  $(document).on('click', 'img[src="templates/NFOrce8/images/icon_expand.gif"], img[src="templates/NFOrce8/images/icon_collapse.gif"]', function(e){
     var btn = $(this);
     var opened = getValue("openedSpoilers");
     if (typeof(opened) !== "string"){
@@ -165,26 +165,25 @@ if (getValue("confirmSpoiler") === "true"){
     }
     var spoiler = btn.closest('tbody').find('tr > td > div[id^="spoiler"]');
 
-    var sid = spoiler.closest('.row2, .row1').find('table > tbody > tr > td > a[href^="viewtopic.php"]').attr('href').split("#")[1] + "_" + spoiler.attr("name").replace("spoiler","");
+    var sid = spoiler.closest('.row2, .row1').find('table > tbody > tr > td > a[href^="viewtopic.php"]').attr('href').split("#")[1] + "_" + spoiler.attr("name").replace("spoiler", "");
 
-    if (btn.attr('src') === "templates/NFOrce8/images/icon_expand.gif") {
+    if (btn.attr('src') === "templates/NFOrce8/images/icon_expand.gif"){
       if (spoiler.hasClass("already-opened") || opened.indexOf(sid) != -1 || window.confirm("Do you really want to open this?")){
         console.log("click 3");
-        btn.attr('src','templates/NFOrce8/images/icon_collapse.gif');
+        btn.attr('src', 'templates/NFOrce8/images/icon_collapse.gif');
         spoiler.show().addClass("already-opened");
-        if (opened.indexOf(sid) == -1) {
+        if (opened.indexOf(sid) == -1){
           opened.push(sid);
         }
-        setValue("openedSpoilers",opened.join(","));
-        fitImages(spoiler.find('img[src^="http"]'), $(window).width(),imageBuffer);
+        setValue("openedSpoilers", opened.join(","));
+        fitImages(spoiler.find('img[src^="http"]'), $(window).width(), imageBuffer);
       }
     } else {
       spoiler.hide();
-      btn.attr('src','templates/NFOrce8/images/icon_expand.gif');
+      btn.attr('src', 'templates/NFOrce8/images/icon_expand.gif');
     }
   });
 }
-
 
 
 /* STYLE PAGINATION */
@@ -193,23 +192,50 @@ if (getValue("betterPagination") === "true"){
   $("div.forumline").next('table').find("td[align='right']").addClass("pagination");
   $("td.pagination > span.gensmall > a:contains('Previous')").css('font-weight', 'bold').text("« Previous");
   $("td.pagination > span.gensmall > a:contains('Next')").css('font-weight', 'bold').text('Next »');
-  $("td.pagination > span.gensmall").contents().filter(function() {
+  $("td.pagination > span.gensmall").contents().filter(function(){
     return this.nodeType == 3 && this.textContent === ", ";
   }).remove();
+}
+
+
+/* MAKE NEW POSTS ABSOLUTE PATH */
+if (getValue("newspostsAbsolute") === "true"){
+  var newposts = $('.row1').find('.topictitle').find('a').has('img[alt="View newest post"]');
+  $(newposts).each(function(i, o){
+    var threadurl = $(this).attr('href');
+    console.log($(this).attr('href'), '->');
+    (function(that){ // closure to smuggle 'this' that disappears after every .each() loop for use in callbacks
+      setTimeout(function(){ // timer to only fetch pages after a certain period, saving server from too much surprise sex
+        $.get(threadurl, function(data, textStatus, jqXHR){
+          var doc = $('<div/>').append(data.replace("urchinTracker();", ""));
+          //console.log('<-',$(doc).find('.row2').find('a'));
+          //console.log('<-',$(doc).find('.row2').find('a').find('img').parent());
+          //console.log('<-', $(doc).find('.row2').find('a').find('img[src="templates/NFOrce8/images/icon_minipost_new.gif"]').parent();
+          var newpostlink = $(doc).find('.row2').find('a').find('img[src="templates/NFOrce8/images/icon_minipost_new.gif"]').parent().first();
+          if (newpostlink !== undefined && newpostlink.length !== 0 && $(newpostlink).attr('href') !== undefined){
+            console.log('new post found: ' + $(that).attr('href') + ' -> ' + $(newpostlink).attr('href'));
+            $(that).attr('href', $(newpostlink).attr('href'));
+          } else {
+            console.log('no new post found for ' + $(that).attr('href'));
+          }
+        });
+      }, 1000 * 30);
+    })(this);
+  });
 }
 
 /* MISC */
 
 /* Toggle checkboxes by clicking on labels */
-$(document).on('click', 'td > span.gen',function(){
+$(document).on('click', 'td > span.gen', function(){
   $(this).parent().find('input[type="checkbox"]').trigger('click');
 });
 
 /* Inject required javascript into the page */
-function injectjs(link) {
-  $('<script type="text/javascript" src="'+link+'"/>').appendTo($('head'));
+function injectjs(link){
+  $('<script type="text/javascript" src="' + link + '"/>').appendTo($('head'));
 }
 
-if (typeof(chrome) !== "undefined") {
+if (typeof(chrome) !== "undefined"){
   injectjs(chrome.extension.getURL('inject_quick_reply.js'));
 }
