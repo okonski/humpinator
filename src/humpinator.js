@@ -204,11 +204,7 @@ if (getValue("embedYoutube") === "true"){
     if ($(this).attr('href') === undefined){
       return;
     }
-    if ($(this).attr('href').toLowerCase().indexOf('youtu.be') !== -1){
-      videoid = $(this).attr('href').split('?')[0]; // only before params
-      videoid = videoid.split('/');
-      videoid = videoid[videoid.length - 1]; // only last url bit
-    } else if ($(this).attr('href').toLowerCase().indexOf('www.youtube.') !== -1 && $(this).attr('href').toLowerCase().indexOf('/watch?') !== -1){
+    if ($(this).attr('href').toLowerCase().indexOf('www.youtube.') !== -1 && $(this).attr('href').toLowerCase().indexOf('/watch?') !== -1){
       videoid = $(this).attr('href').split('?')[1]; // only params
       videoid = videoid.split('&'); // split params
       videoid.forEach(function(o, i){ // find videoid
@@ -219,6 +215,10 @@ if (getValue("embedYoutube") === "true"){
         }
         return true;
       });
+    } else if ($(this).attr('href').toLowerCase().indexOf('youtu.be') !== -1){
+      videoid = $(this).attr('href').split('?')[0]; // only before params
+      videoid = videoid.split('/');
+      videoid = videoid[videoid.length - 1]; // only last url bit
     }
     if (videoid !== false){
       var embedstring;
