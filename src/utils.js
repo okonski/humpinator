@@ -60,6 +60,23 @@ var options = {
     "name": "Absolute new post links",
     "title": "Resolve redirects to new posts so they cannot time out.",
     "value": true
+  },
+  "embedYoutube": {
+    "name": "Embed Youtube links",
+    "title": "Make all youtube links embedded video.",
+    "value": true
+  },
+  "embedYoutubeButtons": {
+    "name": "..on click",
+    "title": "Rather than embedding all links, create buttons next to the link, that when clicked embeds the link.",
+    "value": true,
+    "sub": true
+  },
+  "embedYoutubeNewstyle": {
+    "name": "Use iframe method",
+    "title": "Prefer new youtube embed method of using iframes over old youtube embed style, which uses object and embed tags. This is much slower, but probably more compatible if you use HTML5 video.",
+    "value": true,
+    "sub": true
   }
 };
 var saveSettings = function(){

@@ -197,6 +197,49 @@ if (getValue("betterPagination") === "true"){
   }).remove();
 }
 
+/* EMBED YOUTUBE LINKS */
+if (getValue("embedYoutube") === "true"){
+  $('a').each(function(i, o){
+    var videoid = false;
+    if ($(this).attr('href') === undefined){
+      return;
+    }
+    if ($(this).attr('href').toLowerCase().indexOf('youtu.be') !== -1){
+      videoid = $(this).attr('href').split('?')[0]; // only before params
+      videoid = videoid.split('/');
+      videoid = videoid[videoid.length - 1]; // only last url bit
+    } else if ($(this).attr('href').toLowerCase().indexOf('www.youtube.') !== -1 && $(this).attr('href').toLowerCase().indexOf('/watch?') !== -1){
+      videoid = $(this).attr('href').split('?')[1]; // only params
+      videoid = videoid.split('&'); // split params
+      videoid.forEach(function(o, i){ // find videoid
+        var sp = o.split('=');
+        if (sp[0] === 'v'){ // we found v=?? param, so we have our guy
+          videoid = sp[1];
+          return false;
+        }
+        return true;
+      });
+    }
+    if (videoid !== false){
+      var embedstring;
+      if (getValue("embedYoutubeNewstyle") === "true"){
+        embedstring = '<br/><iframe width="640" height="360" src="http://www.youtube.com/embed/' + videoid + '" frameborder="0" allowfullscreen></iframe><br/>';
+      } else {
+        embedstring = '<br/><object width="640" height="360"><param name="movie" value="http://www.youtube.com/v/' + videoid + '?version=3&amp;hl=en_GB"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/' + videoid + '?version=3&amp;hl=en_GB" type="application/x-shockwave-flash" width="640" height="360" allowscriptaccess="always" allowfullscreen="true"></embed></object><br/>';
+      }
+      if (getValue("embedYoutubeButtons") === "true"){
+        (function(that, embedstring){
+          var youtubebutton = $('<button>').html('embed').css('padding', '0').click(function(){
+            $(this).replaceWith(embedstring);
+          });
+          $(that).after(youtubebutton);
+        })(this, embedstring);
+      } else {
+        $(this).after(embedstring);
+      }
+    }
+  });
+}
 
 /* MAKE NEW POSTS ABSOLUTE PATH */
 if (getValue("newspostsAbsolute") === "true"){
@@ -204,13 +247,11 @@ if (getValue("newspostsAbsolute") === "true"){
   $(newposts).each(function(i, o){
     var threadurl = $(this).attr('href');
     console.log($(this).attr('href'), '->');
-    (function(that){ // closure to smuggle 'this' that disappears after every .each() loop for use in callbacks
-      setTimeout(function(){ // timer to only fetch pages after a certain period, saving server from too much surprise sex
+    (function(that, delaymult){ // closure to smuggle vars that disappear after every .each() loop for use in callbacks
+      var delay = 1000 * 3 * delaymult; // spread out the page loads by 3 second intervals
+      setTimeout(function(){ // only fetch pages after a certain period, saving server from too much surprise sex
         $.get(threadurl, function(data, textStatus, jqXHR){
           var doc = $('<div/>').append(data.replace("urchinTracker();", ""));
-          //console.log('<-',$(doc).find('.row2').find('a'));
-          //console.log('<-',$(doc).find('.row2').find('a').find('img').parent());
-          //console.log('<-', $(doc).find('.row2').find('a').find('img[src="templates/NFOrce8/images/icon_minipost_new.gif"]').parent();
           var newpostlink = $(doc).find('.row2').find('a').find('img[src="templates/NFOrce8/images/icon_minipost_new.gif"]').parent().first();
           if (newpostlink !== undefined && newpostlink.length !== 0 && $(newpostlink).attr('href') !== undefined){
             console.log('new post found: ' + $(that).attr('href') + ' -> ' + $(newpostlink).attr('href'));
@@ -219,8 +260,8 @@ if (getValue("newspostsAbsolute") === "true"){
             console.log('no new post found for ' + $(that).attr('href'));
           }
         });
-      }, 1000 * 30);
-    })(this);
+      }, 1000 * 30 + delay);
+    })(this, i); // this->that, i->delaymult
   });
 }
 
