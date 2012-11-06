@@ -206,6 +206,7 @@ if (getValue("embedYoutube") === "true"){
     }
     if ($(this).attr('href').toLowerCase().indexOf('www.youtube.') !== -1 && $(this).attr('href').toLowerCase().indexOf('/watch?') !== -1){
       videoid = $(this).attr('href').split('?')[1]; // only params
+      videoid = videoid.split('#')[0]; // discard hash
       videoid = videoid.split('&'); // split params
       videoid.forEach(function(o, i){ // find videoid
         var sp = o.split('=');
@@ -248,7 +249,7 @@ if (getValue("newspostsAbsolute") === "true"){
     var threadurl = $(this).attr('href');
     console.log($(this).attr('href'), '->');
     (function(that, delaymult){ // closure to smuggle vars that disappear after every .each() loop for use in callbacks
-      var delay = 1000 * 3 * delaymult; // spread out the page loads by 3 second intervals
+      var delay = 1000 * delaymult; // spread out the page loads by 1s intervals
       setTimeout(function(){ // only fetch pages after a certain period, saving server from too much surprise sex
         $.get(threadurl, function(data, textStatus, jqXHR){
           var doc = $('<div/>').append(data.replace("urchinTracker();", ""));
@@ -260,7 +261,7 @@ if (getValue("newspostsAbsolute") === "true"){
             console.log('no new post found for ' + $(that).attr('href'));
           }
         });
-      }, 1000 * 30 + delay);
+      }, 1000 * 10 + delay);
     })(this, i); // this->that, i->delaymult
   });
 }
