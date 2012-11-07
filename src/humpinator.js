@@ -241,8 +241,8 @@ if (getValue("embedYoutube") === "true"){
     }
   });
 }
-
 /* MAKE NEW POSTS ABSOLUTE PATH */
+/*
 if (getValue("newspostsAbsolute") === "true"){
   var newposts = $('.row1').find('.topictitle').find('a').has('img[alt="View newest post"]');
   $(newposts).each(function(i, o){
@@ -253,8 +253,9 @@ if (getValue("newspostsAbsolute") === "true"){
       setTimeout(function(){ // only fetch pages after a certain period, saving server from too much surprise sex
         $.get(threadurl, function(data, textStatus, jqXHR){
           var doc = $('<div/>').append(data.replace("urchinTracker();", ""));
-          var newpostlink = $(doc).find('.row2').find('a').find('img[src="templates/NFOrce8/images/icon_minipost_new.gif"]').parent().first();
-          if (newpostlink !== undefined && newpostlink.length !== 0 && $(newpostlink).attr('href') !== undefined){
+          //var newpostlink = $(doc).find('.row2').find('a').find('img[src="templates/NFOrce8/images/icon_minipost_new.gif"]').parent().first();
+          var newpostlink = $(doc).find('.bodyline').find('.gensmall a');
+          if (newpostlink !== undefined  && $(newpostlink).attr('href') !== undefined){
             console.log('new post found: ' + $(that).attr('href') + ' -> ' + $(newpostlink).attr('href'));
             $(that).attr('href', $(newpostlink).attr('href'));
           } else {
@@ -262,6 +263,48 @@ if (getValue("newspostsAbsolute") === "true"){
           }
         });
       }, 1000 * 10 + delay);
+    })(this, i); // this->that, i->delaymult
+  });
+}
+*/
+if (getValue("newspostsAbsolute") === "true"){
+  var newposts = $('.row1').find('.topictitle').find('a').has('img[alt="View newest post"]');
+  $(newposts).each(function(i, o){
+    var threadurl = $(this).attr('href');
+    (function(that, delaymult){ // closure to smuggle vars that disappear after every .each() loop for use in callbacks
+      var delay = 2000 * delaymult; // spread out the page loads by 2s intervals
+      setTimeout(function(){ // only fetch pages after a certain period, saving server from too much surprise sex
+        console.log($(that).attr('href'), '->');
+        var threadid=$(that).attr('href').split('?')[1].split('&');
+        threadid.forEach(function(o, i){ // find videoid
+          var sp = o.split('=');
+          if (sp[0] === 't'){ // we has thread
+            threadid = sp[1];
+            return false;
+          }
+          return true;
+        });
+        var searchvars={
+          'search_keywords':'a b c d e f g h i j k l m n o p q r s t u v w x y z',
+          'search_terms':'any',
+          'sort_by':0,
+          'sort_dir':'DESC',
+          'show_results':'posts',
+          'return_chars':1,
+          't':threadid
+        };
+        $.post('http://www.nfohump.com/forum/search.php',searchvars, function(data, textStatus, jqXHR){
+          var doc = $('<div/>').append(data.replace("urchinTracker();", ""));
+          var newpostlink = $(doc).find('img[src="templates/NFOrce8/images/icon_minipost_new.gif"]').parent().find('a').not('.postdetails').last();
+          // TODO: add further search if newpostlink.length===50
+          if (newpostlink !== undefined  && $(newpostlink).attr('href') !== undefined){
+            console.log('new post found: ' + $(that).attr('href') + ' -> ' + $(newpostlink).attr('href'));
+            $(that).attr('href', $(newpostlink).attr('href'));
+          } else {
+            console.log('no new post found for ' + $(that).attr('href'));
+          }
+        });
+      }, 1000 * 20 + delay);
     })(this, i); // this->that, i->delaymult
   });
 }
