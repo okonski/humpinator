@@ -106,7 +106,7 @@ td.humpinator-pagination {
   padding-bottom: 7px;
 }
 td.humpinator-pagination > span.gensmall > a[href*="&start"], td.humpinator-pagination > span.gensmall > b{
-  padding: 1px 7px 1px 7px;
+  padding: 1px 7px 1px 7px !important;
   color: white;
   border: 1px solid #7484A0;
   background-color: #384D70;
@@ -122,6 +122,6 @@ td.humpinator-pagination > span.gensmall > b{
   background-color: #384D70;
   border: 1px solid #858e9f;
   color: gold;
-  padding: 1px 7px 1px 7px;
+  padding: 1px 7px 1px 7px !important;
   font-size: 11px;
 }

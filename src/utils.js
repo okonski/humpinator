@@ -45,7 +45,7 @@ var saveSettings = function(){
     setValue(key, options[key].value);
   }
 };
-if (!localStorage["humpinator-fitImages"]){
+if (!localStorage["humpinator-fullReplyForm"]){
   saveSettings();
 }
 

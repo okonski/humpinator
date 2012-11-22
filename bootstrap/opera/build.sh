@@ -1,5 +1,6 @@
 #!/bin/bash
 echo Updating CSS
+mkdir styles
 cp ../../src/css/humpinator.css ./styles/
 
 echo Compiling JS
