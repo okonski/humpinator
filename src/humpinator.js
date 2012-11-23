@@ -2,34 +2,38 @@
 var rememberPostMessage = function(thread){
   var value = encodeURIComponent($('textarea[name="message"]').val());
   if (value.length > 0){
-    window.sessionStorage.setItem('humpinatorPostSaver-' + thread, value);
+    window.localStorage.setItem('humpinatorPostSaver-' + thread, value);
   } else {
-    window.sessionStorage.removeItem('humpinatorPostSaver-' + thread);
+    window.localStorage.removeItem('humpinatorPostSaver-' + thread);
   }
 };
 
 var restorePostMessage = function(thread){
-  var savedpost = window.sessionStorage.getItem('humpinatorPostSaver-' + thread);
+  var savedpost = window.localStorage.getItem('humpinatorPostSaver-' + thread);
 
   if (savedpost){
     $('textarea[name="message"]').val(decodeURIComponent(savedpost)); // restore old message, if exists
   }
 };
-var matched = window.location.href.match(/[?&]t=([0-9]+)/);
+var matched = $('a.maintitle');
+
+if (matched.length > 0){
+  var thread_id = matched.attr('href').match(/\?t=([0-9]+)/)[1];
+}
 
 $(document).on('keyup click', 'form textarea[name="message"]', function() {
-  rememberPostMessage(matched[1]);
+  rememberPostMessage(thread_id);
 });
 
 // Restore messages lost on refresh, etc.
 
-if (matched !== null){
-  restorePostMessage(matched[1]);
-  rememberPostMessage(matched[1]); // keep remembering until user posts the message. Survives multiple refreshes this way
+if (matched.length > 0){
+  
+  restorePostMessage(thread_id);
+  rememberPostMessage(thread_id); // keep remembering until user posts the message. Survives multiple refreshes this way
 } else if (window.location.href.match(/viewtopic\.php\?p=([0-9]+)/) !== null 
     && document.referrer.match(/viewtopic\.php\?t/) !== null) {
-  var thread_id = $('a.maintitle').attr('href').match(/\?t=([0-9]+)/)[1];
-  window.sessionStorage.removeItem('humpinatorPostSaver-' + thread_id);
+  window.localStorage.removeItem('humpinatorPostSaver-' + thread_id);
 }
 
 /* FULL REPLY FORM */
