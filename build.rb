@@ -18,7 +18,7 @@ FileUtils.rm_rf "temp"
 FileUtils.mkdir "temp"
 
 # Chrome
-if system("google-chrome --pack-extension=src/ --pack-extension-key=cert.pem") == true
+if system("chromium --pack-extension=src/ --pack-extension-key=cert.pem") == true
 
   FileUtils.mv "src.crx", "out/humpinator-#{manifest["version"]}.crx"
   src_files = Dir.glob('src/*')
@@ -33,8 +33,10 @@ if system("google-chrome --pack-extension=src/ --pack-extension-key=cert.pem") =
   # set version number
   replace_version_in("temp/firefox/package.json", manifest["version"])
 
-  system("cd temp/firefox && cfx xpi")
-  FileUtils.mv "temp/firefox/humpinator.xpi", "out/humpinator-#{manifest["version"]}.xpi"
+  system("cd temp/firefox && cfx xpi --update-url https://okonski.org/humpinator/index.php?target=firefox --update-link https://okonski.org/humpinator/current/humpinator.xpi")
+  FileUtils.cp "temp/firefox/humpinator.xpi", "out/humpinator-#{manifest["version"]}.xpi"
+  FileUtils.mv "temp/firefox/humpinator.xpi", "out/humpinator.xpi"
+
   #FileUtils.rm_rf 'temp/firefox'
 
   # --- Opera
