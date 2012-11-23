@@ -91,11 +91,10 @@ if (getValue("confirmSpoiler") === "true"){
 
 /* STYLE PAGINATION */
 if (getValue("betterPagination") === "true"){
-  $("div.forumline td.topSpaceRow[align='right'], td.bodyline > form > table > tbody > tr:eq(1) > td[align='right']").addClass("pagination");
-  $(".pagination").addClass("humpinator-pagination");
-  $("td.humpinator-pagination > span.gensmall > a:contains('Previous')").css('font-weight', 'bold').text("« Previous");
-  $("td.humpinator-pagination > span.gensmall > a:contains('Next')").css('font-weight', 'bold').text('Next »');
-  $("td.humpinator-pagination > span.gensmall").contents().filter(function(){
+  $('a:contains(Previous), a:contains(Next)').parent().addClass("humpinator-pagination");
+  $(".humpinator-pagination > a:contains('Previous')").css('font-weight', 'bold').text("« Previous");
+  $(".humpinator-pagination > a:contains('Next')").css('font-weight', 'bold').text('Next »');
+  $(".humpinator-pagination").contents().filter(function(){
     return this.nodeType == 3 && this.textContent === ", ";
   }).remove();
 }
