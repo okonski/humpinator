@@ -1,16 +1,36 @@
 /* REMEMBER MESSAGES BEFORE SUBMITTING */
-var rememberPostMessage = function(){
-  window.sessionStorage.setItem('humpinatorPostSaver', encodeURIComponent($('textarea[name="message"]').val()));
-};
-
-var restorePostMessage = function(){
-  var savedpost = window.sessionStorage.getItem('humpinatorPostSaver');
-  if (savedpost){
-    $('textarea[name="message"]').val(decodeURIComponent(savedpost)); // restore old message, if exists
-    window.sessionStorage.removeItem('humpinatorPostSaver'); // and remove it so it doesn't linger
+var rememberPostMessage = function(thread){
+  var value = encodeURIComponent($('textarea[name="message"]').val());
+  if (value.length > 0){
+    window.sessionStorage.setItem('humpinatorPostSaver-' + thread, value);
+  } else {
+    window.sessionStorage.removeItem('humpinatorPostSaver-' + thread);
   }
 };
-$(document).on('click', 'form input[type="submit"]', rememberPostMessage);
+
+var restorePostMessage = function(thread){
+  var savedpost = window.sessionStorage.getItem('humpinatorPostSaver-' + thread);
+
+  if (savedpost){
+    $('textarea[name="message"]').val(decodeURIComponent(savedpost)); // restore old message, if exists
+  }
+};
+var matched = window.location.href.match(/[?&]t=([0-9]+)/);
+
+$(document).on('keyup click', 'form textarea[name="message"]', function() {
+  rememberPostMessage(matched[1]);
+});
+
+// Restore messages lost on refresh, etc.
+
+if (matched !== null){
+  restorePostMessage(matched[1]);
+  rememberPostMessage(matched[1]); // keep remembering until user posts the message. Survives multiple refreshes this way
+} else if (window.location.href.match(/viewtopic\.php\?p=([0-9]+)/) !== null 
+    && document.referrer.match(/viewtopic\.php\?t/) !== null) {
+  var thread_id = $('a.maintitle').attr('href').match(/\?t=([0-9]+)/)[1];
+  window.sessionStorage.removeItem('humpinatorPostSaver-' + thread_id);
+}
 
 /* FULL REPLY FORM */
 if (getValue("fullReplyForm") === "true"){
@@ -22,18 +42,15 @@ if (getValue("fullReplyForm") === "true"){
         var content = $('<div/>').append(data.replace("urchinTracker();", "")).find('form[name="post"]');
         content.find('table:first').remove(); // remove the additional breadcrumbs leftovers
         content.attr("id", "qrform");
-        content.find("textarea").attr("id", "msg");
+        content.find("textarea").val(form.find("textarea").val()).attr("id", "msg");
+
         form.replaceWith(content);
         
         if (getValue("fullEmoticonSet") === "true"){
           var old_emoticons = content.find('table[cellpadding="5"]');
           var new_smilies = form.find(".smilies").addClass("humpinator-emoticon-set");
           old_emoticons.replaceWith(new_smilies);
-        }
-
-        // Ajax posting for full reply form
-        //fullEmoticonSet();
-        restorePostMessage();
+        }        
       }
     });
   }
@@ -56,7 +73,6 @@ if (getValue("confirmSpoiler") === "true"){
 
     if (btn.attr('src') === "templates/NFOrce8/images/icon_expand.gif"){
       if (spoiler.hasClass("already-opened") || opened.indexOf(sid) != -1 || window.confirm("Do you really want to open this?")){
-        console.log("click 3");
         btn.attr('src', 'templates/NFOrce8/images/icon_collapse.gif');
         spoiler.show().addClass("already-opened");
         if (opened.indexOf(sid) == -1){
