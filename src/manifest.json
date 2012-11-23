@@ -15,7 +15,7 @@
   ],
   "content_scripts": [
     {
-      "matches": ["http://www.nfohump.com/forum/index.php","http://www.nfohump.com/forum/viewforum.php*", "http://www.nfohump.com/forum/viewtopic.php*","http://www.nfohump.com/forum/posting.php?mode=reply*"],
+      "matches": ["http://www.nfohump.com/forum/index.php","http://www.nfohump.com/forum/viewforum.php*", "http://www.nfohump.com/forum/search.php*", "http://www.nfohump.com/forum/viewtopic.php*","http://www.nfohump.com/forum/posting.php?mode=reply*"],
       "js": [
         "jquery.min.js",
         "jquery.imagesloaded.min.js",
