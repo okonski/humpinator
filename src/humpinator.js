@@ -95,7 +95,7 @@ if (getValue("confirmSpoiler") === "true"){
 
 /* STYLE PAGINATION */
 if (getValue("betterPagination") === "true"){
-  $('a:contains(Previous), a:contains(Next)').parent().addClass("humpinator-pagination");
+  $('a[href*=start]:contains(Previous):not(.maintitle), a[href*=start]:contains(Next):not(.maintitle)').parent().addClass("humpinator-pagination");
   $(".humpinator-pagination > a:contains('Previous')").css('font-weight', 'bold').text("« Previous");
   $(".humpinator-pagination > a:contains('Next')").css('font-weight', 'bold').text('Next »');
   $(".humpinator-pagination").contents().filter(function(){
