@@ -5,6 +5,7 @@ var rememberPostMessage = function(thread){
     window.localStorage.setItem('humpinatorPostSaver-' + thread, value);
   } else {
     window.localStorage.removeItem('humpinatorPostSaver-' + thread);
+    window.localStorage.removeItem('humpinatorPosted-' + thread);
   }
 };
 
@@ -15,25 +16,34 @@ var restorePostMessage = function(thread){
     $('textarea[name="message"]').val(decodeURIComponent(savedpost)); // restore old message, if exists
   }
 };
-var matched = $('a.maintitle');
+
+var matched = $('input[name="t"][type="hidden"]');
 
 if (matched.length > 0){
-  var thread_id = matched.attr('href').match(/\?t=([0-9]+)/)[1];
+  var thread_id = matched.val();
+
+  $(document).on('keyup click', 'form[action="posting.php"] textarea[name="message"]', function() {
+    rememberPostMessage(thread_id);
+  });
+
+  $(document).on('click', 'form[action="posting.php"] input[type="button"], form select', function() {
+    rememberPostMessage(thread_id);
+  });
+
+  $(document).on('click', 'form[action="posting.php"] input[type="submit"]:not([value="Preview"])', function() {
+    window.localStorage.setItem('humpinatorPosted-' + thread_id, '1');
+  });
 }
 
-$(document).on('keyup click', 'form textarea[name="message"]', function() {
-  rememberPostMessage(thread_id);
-});
-
 // Restore messages lost on refresh, etc.
+console.log("ref:" + document.referrer);
 
-if (matched.length > 0){
-  
+if (matched.length > 0 && document.referrer.match(/viewtopic\.php/) === null && window.localStorage.getItem('humpinatorPosted-' + thread_id) === null){
   restorePostMessage(thread_id);
   rememberPostMessage(thread_id); // keep remembering until user posts the message. Survives multiple refreshes this way
-} else if (window.location.href.match(/viewtopic\.php\?p=([0-9]+)/) !== null 
-    && document.referrer.match(/viewtopic\.php\?t/) !== null) {
-  window.localStorage.removeItem('humpinatorPostSaver-' + thread_id);
+} else if (matched.length > 0) {
+    window.localStorage.removeItem('humpinatorPostSaver-' + thread_id);
+    window.localStorage.removeItem('humpinatorPosted-' + thread_id);
 }
 
 /* FULL REPLY FORM */
