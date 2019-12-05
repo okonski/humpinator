@@ -50,7 +50,7 @@ if (matched.length > 0 && document.referrer.match(/viewtopic\.php/) === null && 
 if (getValue("fullReplyForm") === "true"){
   var form = $('form[name="qrform"]');
   if (form.length > 0){
-    $.ajax("http://www.nfohump.com/forum/posting.php?mode=reply&t=" + form.find('input[type="hidden"][name="t"]').val(), {
+    $.ajax("https://www.nfohump.com/forum/posting.php?mode=reply&t=" + form.find('input[type="hidden"][name="t"]').val(), {
       dataType: 'html',
       success: function(data, textStatus, jqXHR){
         var content = $('<div/>').append(data.replace("urchinTracker();", "")).find('form[name="post"]');
@@ -59,12 +59,12 @@ if (getValue("fullReplyForm") === "true"){
         content.find("textarea").val(form.find("textarea").val()).attr("id", "msg");
 
         form.replaceWith(content);
-        
+
         if (getValue("fullEmoticonSet") === "true"){
           var old_emoticons = content.find('table[cellpadding="5"]');
           var new_smilies = form.find(".smilies").addClass("humpinator-emoticon-set");
           old_emoticons.replaceWith(new_smilies);
-        }        
+        }
       }
     });
   }

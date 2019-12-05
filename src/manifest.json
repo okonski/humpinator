@@ -1,9 +1,9 @@
 {
   "update_url": "https://clients2.google.com/service/update2/crx",
   "name": "Humpinator",
-  "version": "0.5.5",
+  "version": "0.5.6",
   "description": "Augment my Hump!",
-  "homepage_url": "http://nfohump.com/forum/viewtopic.php?t=75547",
+  "homepage_url": "https://nfohump.com/forum/viewtopic.php?t=75547",
   "minimum_chrome_version" : "14.0",
   "manifest_version": 2,
   "icons": {

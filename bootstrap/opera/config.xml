@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<widget xmlns="http://www.w3.org/ns/widgets" id="http://nfohump.com/forum/viewtopic.php?t=75547" version="{version}">
+<widget xmlns="http://www.w3.org/ns/widgets" id="https://nfohump.com/forum/viewtopic.php?t=75547" version="{version}">
 	<name>Humpinator</name>
 	<description>Augment my Hump!</description>
-	<author href="http://nfohump.com/forum/viewtopic.php?t=75547">garus</author>
+	<author href="https://nfohump.com/forum/viewtopic.php?t=75547">garus</author>
 	<icon src="icons/icon-64.png"/>
-    <update-description href="http://humpinator.nonidem.net/update/opera"/>
+    <update-description href="https://humpinator.nonidem.net/update/opera"/>
 </widget>
