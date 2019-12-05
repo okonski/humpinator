@@ -1,11 +1,11 @@
 {
+  "update_url": "https://clients2.google.com/service/update2/crx",
   "name": "Humpinator",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "Augment my Hump!",
   "homepage_url": "http://nfohump.com/forum/viewtopic.php?t=75547",
   "minimum_chrome_version" : "14.0",
   "manifest_version": 2,
-  "update_url": "http://humpinator.nonidem.net/update/chrome",
   "icons": {
     "16": "icon.ico"
   },
@@ -15,7 +15,7 @@
   ],
   "content_scripts": [
     {
-      "matches": ["http://www.nfohump.com/forum/index.php","http://www.nfohump.com/forum/viewforum.php*", "http://www.nfohump.com/forum/search.php*", "http://www.nfohump.com/forum/viewtopic.php*","http://www.nfohump.com/forum/posting.php?mode=reply*", "http://www.nfohump.com/forum/posting.php"],
+      "matches": ["https://www.nfohump.com/forum/index.php","https://www.nfohump.com/forum/viewforum.php*", "https://www.nfohump.com/forum/search.php*", "https://www.nfohump.com/forum/viewtopic.php*","https://www.nfohump.com/forum/posting.php?mode=reply*", "https://www.nfohump.com/forum/posting.php"],
       "js": [
         "jquery.min.js",
         "jquery.imagesloaded.min.js",
@@ -26,12 +26,12 @@
       "run_at" : "document_end"
     },
     {
-      "matches": ["http://www.nfohump.com/forum/*"],
+      "matches": ["https://www.nfohump.com/forum/*"],
       "css": ["css/humpinator.css"],
       "run_at" : "document_end"
     }
   ],
   "permissions": [
-    "http://www.nfohump.com/"
+    "https://www.nfohump.com/"
   ]
 }
