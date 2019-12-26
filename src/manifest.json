@@ -17,6 +17,7 @@
     {
       "matches": ["https://www.nfohump.com/forum/index.php","https://www.nfohump.com/forum/viewforum.php*", "https://www.nfohump.com/forum/search.php*", "https://www.nfohump.com/forum/viewtopic.php*","https://www.nfohump.com/forum/posting.php?mode=reply*", "https://www.nfohump.com/forum/posting.php"],
       "js": [
+        "js.cookie.min.js",
         "jquery.min.js",
         "jquery.imagesloaded.min.js",
         "utils.js",

@@ -7,6 +7,66 @@ var setValue = function(k,v){
   localStorage.setItem("humpinator-" + k, v);
 };
 
+function parseThreads(data) {
+  var split = unescape(data).split('{')[1].split('}')[0]
+  var threads = [];
+
+  var list = split.split(';').map(function(number) {
+    return number.replace('i:', '');
+  })
+
+  for(var i = 0; i < list.length - 1; i += 2) {
+    threads.push({id: list[i], timestamp: parseInt(list[i + 1])});
+  }
+
+  return threads;
+}
+
+
+function cleanUp(threads, max) {
+
+  if (threads.length <= max)
+    return null;
+
+  var sorted = threads.sort(function (a, b) {
+    if (a.timestamp < b.timestamp)
+      return -1;
+   if (a.timestamp > b.timestamp)
+      return 1
+
+   return 0
+  })
+
+  var lastRemoved = sorted[sorted.length - max - 1];
+  var remaining = sorted.slice(- max);
+
+  return {remaining: remaining, lastRemoved: lastRemoved};
+}
+
+
+function serializeThreads(threads) {
+  var value = "a:";
+
+  value += threads.length.toString();
+  value += ":{";
+
+  for(var i = 0; i < threads.length; i += 1) {
+    var thread = threads[i];
+
+    value += "i:";
+    value += thread.id;
+    value += ";i:";
+    value += thread.timestamp;
+    value += ";";
+
+  }
+  value += "}";
+
+  return value;
+
+
+}
+
 
 var options = {
 

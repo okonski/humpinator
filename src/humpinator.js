@@ -155,3 +155,20 @@ function injectjs(link){
 if (typeof(chrome) !== "undefined"){
   injectjs(chrome.extension.getURL('inject_quick_reply.js'));
 }
+
+
+var cookie = Cookies.get('forum_t');
+var parsed = parseThreads(cookie);
+var cleaned = cleanUp(parsed, 50);
+console.log('threads in cookie', parsed.length);
+
+if (cleaned) {
+  console.log('cleaned from', parsed.length, 'to', cleaned.remaining.length);
+  var serialized = serializeThreads(cleaned.remaining);
+
+  console.log('parsed', parsed);
+  console.log('serialized', serialized);
+
+  Cookies.set('forum_t', escape(serialized), {path: '/forum', domain: '.nfohump.com'});
+  Cookies.set('forum_f_all', cleaned.lastRemoved.timestamp, {path: '/forum', domain: '.nfohump.com'});
+}
